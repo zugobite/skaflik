@@ -28,6 +28,14 @@ captures/
 *.jks
 *.keystore
 
+# Secrets — service account keys grant admin access to the Firebase project and
+# must never be committed, especially in a public repo. The Android app does not
+# use them; it only needs app/google-services.json.
+*-adminsdk-*.json
+service-account*.json
+*serviceAccount*.json
+secrets.properties
+
 # macOS
 .DS_Store
 

@@ -79,17 +79,19 @@ ingredients) and are shared across all users; pantry items are scoped per user.
 
    Open the `skaflik` folder in Android Studio and let the Gradle sync finish.
 
-2. **Connect your Firebase project**
+2. **Firebase**
 
-   `app/google-services.json` in this repo is a **placeholder** and will not
-   connect to a live backend. Replace it with your own:
+   No setup required. `app/google-services.json` is committed and points at the
+   project's Firebase backend, so a fresh clone builds and runs as-is. That file
+   holds client identifiers, not secrets — Google expects it to ship inside the
+   APK, and access is controlled by Firestore security rules rather than by
+   keeping it private.
 
-   - In the [Firebase console](https://console.firebase.google.com), create a
-     project and add an Android app with package name `com.skaflik`.
-   - Download the generated `google-services.json` and drop it into `app/`,
-     overwriting the placeholder.
-   - In the console, enable **Firestore Database** and enable **Anonymous**
-     sign-in under Authentication → Sign-in method.
+   To point the app at your *own* Firebase project instead: create a project in
+   the [Firebase console](https://console.firebase.google.com), add an Android
+   app with package name `com.zugobite.skaflik`, download the generated
+   `google-services.json` over the committed one, then enable **Firestore
+   Database** and **Anonymous** sign-in under Authentication → Sign-in method.
 
 3. **Build and run**
 
@@ -103,7 +105,7 @@ ingredients) and are shared across all users; pantry items are scoped per user.
 ## Project structure
 
 ```
-app/src/main/java/com/skaflik/
+app/src/main/java/com/zugobite/skaflik/
 ├── MainActivity.java              // host + BottomNavigationView
 ├── ui/                            // fragments and child activities
 ├── adapter/                       // RecyclerView adapters

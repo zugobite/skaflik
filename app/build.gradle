@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.skaflik'
+    namespace 'com.zugobite.skaflik'
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.skaflik"
+        applicationId "com.zugobite.skaflik"
         // minSdk 24 as specified in the build plan (Phase 1).
         minSdk 24
         targetSdk 36

@@ -3,4 +3,4 @@
 # placeholder. If it is ever enabled, Firestore needs its model classes kept so
 # that automatic POJO (de)serialisation keeps working:
 #
-# -keepclassmembers class com.skaflik.model.** { *; }
+# -keepclassmembers class com.zugobite.skaflik.model.** { *; }

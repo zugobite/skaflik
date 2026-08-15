@@ -1,21 +1,22 @@
 {
   "project_info": {
-    "project_number": "000000000000",
-    "project_id": "skaflik-placeholder",
-    "storage_bucket": "skaflik-placeholder.appspot.com"
+    "project_number": "789147608191",
+    "firebase_url": "https://skaflik-default-rtdb.firebaseio.com",
+    "project_id": "skaflik",
+    "storage_bucket": "skaflik.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:000000000000:android:0000000000000000000000",
+        "mobilesdk_app_id": "1:789147608191:android:b67a1043c40b4288224b4a",
         "android_client_info": {
-          "package_name": "com.skaflik"
+          "package_name": "com.zugobite.skaflik"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "REPLACE_WITH_YOUR_FIREBASE_ANDROID_API_KEY"
+          "current_key": "AIzaSyCz_vvUaCyOwuvMfpnmHJTZT7r7P-iPQAc"
         }
       ],
       "services": {

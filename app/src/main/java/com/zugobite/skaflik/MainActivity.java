@@ -1,4 +1,4 @@
-package com.skaflik;
+package com.zugobite.skaflik;
 
 import android.os.Bundle;
 

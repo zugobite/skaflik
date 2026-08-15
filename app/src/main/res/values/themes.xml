@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme, built on Material 3. -->
+    <style name="Theme.Skaflik" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/skaflik_green</item>
+        <item name="colorPrimaryDark">@color/skaflik_green_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/skaflik_terracotta</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/skaflik_green_dark</item>
+    </style>
+
+</resources>

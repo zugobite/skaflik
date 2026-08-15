@@ -1,0 +1,37 @@
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+*.dex
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+build/
+release/
+
+# Gradle
+.gradle/
+local.properties
+
+# Android Studio / IntelliJ
+*.iml
+.idea/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Keystores
+*.jks
+*.keystore
+
+# macOS
+.DS_Store
+
+# Note: app/google-services.json is deliberately NOT ignored. It is a client
+# config file, not a secret, and committing it means the project builds and runs
+# straight from a clone - which is what a marker needs. Firestore access is
+# restricted by security rules, not by hiding this file.

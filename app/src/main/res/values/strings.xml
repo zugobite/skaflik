@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Skaflik</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_pantry">Pantry</string>
+    <string name="nav_suggestions">Suggestions</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Empty states -->
+    <string name="empty_pantry">Your pantry is empty - tap + to add an ingredient.</string>
+    <string name="empty_suggestions">No recipes match your pantry yet - add more ingredients.</string>
+</resources>

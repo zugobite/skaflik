@@ -1,0 +1,7 @@
+// Top-level build file. Plugin versions are declared once here and applied
+// (without a version) in the module-level build files.
+plugins {
+    id 'com.android.application' version '8.7.3' apply false
+    // Turns app/google-services.json into the Firebase config read at runtime.
+    id 'com.google.gms.google-services' version '4.4.2' apply false
+}

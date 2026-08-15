@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Skaflik palette: a warm kitchen green with a terracotta accent. -->
+    <color name="skaflik_green">#FF2E7D52</color>
+    <color name="skaflik_green_dark">#FF1B5E3A</color>
+    <color name="skaflik_terracotta">#FFC2603F</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+</resources>

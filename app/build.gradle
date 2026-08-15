@@ -47,7 +47,7 @@ dependencies {
     // --- Firebase (chosen persistence layer: Cloud Firestore) ---
     // The BoM pins mutually compatible versions, so the Firebase artifacts
     // below it are declared without their own version numbers.
-    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+    implementation platform('com.google.firebase:firebase-bom:34.17.0')
     implementation 'com.google.firebase:firebase-firestore'
     // Anonymous auth gives each device a stable UID to scope its pantry data.
     implementation 'com.google.firebase:firebase-auth'

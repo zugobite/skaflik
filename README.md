@@ -83,7 +83,7 @@ ingredients) and are shared across all users; pantry items are scoped per user.
 
    No setup required. `app/google-services.json` is committed and points at the
    project's Firebase backend, so a fresh clone builds and runs as-is. That file
-   holds client identifiers, not secrets — Google expects it to ship inside the
+   holds client identifiers, not secrets - Google expects it to ship inside the
    APK, and access is controlled by Firestore security rules rather than by
    keeping it private.
 

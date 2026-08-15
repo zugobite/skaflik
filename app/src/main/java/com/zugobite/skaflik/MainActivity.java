@@ -1,13 +1,20 @@
 package com.zugobite.skaflik;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
+import com.zugobite.skaflik.data.AuthManager;
+import com.zugobite.skaflik.data.RecipeSeeder;
+import com.zugobite.skaflik.data.RepositoryCallback;
 
 /**
  * Host activity for Skaflik.
@@ -18,6 +25,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  * activities launched from these fragments via explicit Intents.</p>
  */
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +41,60 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             bottomNav.setSelectedItemId(R.id.nav_pantry);
         }
+
+        prepareBackend();
+    }
+
+    /**
+     * Signs in anonymously and seeds the recipe list if this is the first run.
+     *
+     * <p>Nothing can read or write Firestore until a UID exists, so sign-in has
+     * to complete before seeding starts - hence the nesting rather than two
+     * independent calls.</p>
+     */
+    private void prepareBackend() {
+        AuthManager.ensureSignedIn(new RepositoryCallback<String>() {
+            @Override
+            public void onSuccess(String userId) {
+                Log.d(TAG, "Signed in as " + userId);
+                seedRecipes();
+            }
+
+            @Override
+            public void onError(@NonNull Exception error) {
+                Log.e(TAG, "Anonymous sign-in failed", error);
+                showBackendError(R.string.error_sign_in);
+            }
+        });
+    }
+
+    /** Seeds the shared recipe collection; a no-op after the first run. */
+    private void seedRecipes() {
+        RecipeSeeder.seedIfNeeded(new RepositoryCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer seededCount) {
+                if (seededCount > 0) {
+                    Log.d(TAG, "Seeded " + seededCount + " recipes.");
+                }
+            }
+
+            @Override
+            public void onError(@NonNull Exception error) {
+                Log.e(TAG, "Recipe seeding failed", error);
+                showBackendError(R.string.error_seed);
+            }
+        });
+    }
+
+    /**
+     * Tells the user when the backend is unreachable.
+     *
+     * <p>Firestore serves cached data offline, so this is a warning rather than
+     * a fatal error - the pantry still works.</p>
+     */
+    private void showBackendError(@StringRes int messageResId) {
+        Snackbar.make(findViewById(R.id.fragment_container),
+                messageResId, Snackbar.LENGTH_LONG).show();
     }
 
     /**

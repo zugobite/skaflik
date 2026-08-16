@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    One place for every spacing and corner value in the app.
+
+    Screens reference these rather than writing their own numbers, so padding
+    and rounding stay identical everywhere and can be changed in one edit.
+-->
+<resources>
+
+    <!-- Spacing scale. Everything is a multiple of 4dp. -->
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">12dp</dimen>
+    <dimen name="space_lg">16dp</dimen>
+    <dimen name="space_xl">24dp</dimen>
+    <dimen name="space_xxl">32dp</dimen>
+
+    <!-- Corner rounding. One radius for cards, one for controls. -->
+    <dimen name="corner_radius">12dp</dimen>
+    <dimen name="corner_radius_control">12dp</dimen>
+
+    <!-- Screen edges and the gap between stacked form fields. -->
+    <dimen name="screen_padding_horizontal">16dp</dimen>
+    <dimen name="screen_padding_vertical">16dp</dimen>
+    <dimen name="field_spacing">16dp</dimen>
+
+    <!-- List rows. -->
+    <dimen name="list_item_padding">16dp</dimen>
+    <dimen name="list_item_margin_horizontal">12dp</dimen>
+    <dimen name="list_item_margin_vertical">6dp</dimen>
+    <dimen name="card_elevation">1dp</dimen>
+
+    <!-- Controls. 48dp is the minimum comfortable touch target. -->
+    <dimen name="touch_target_min">48dp</dimen>
+    <dimen name="button_padding_horizontal">24dp</dimen>
+    <dimen name="button_padding_vertical">12dp</dimen>
+
+    <!-- Clearance so the FAB never covers the last row in a list. -->
+    <dimen name="list_bottom_clearance">88dp</dimen>
+
+</resources>

@@ -32,14 +32,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="24dp">
+            android:paddingBottom="@dimen/space_xl">
 
             <TextView
                 android:id="@+id/text_detail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="16dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                android:paddingTop="@dimen/space_lg"
                 android:textAppearance="?attr/textAppearanceHeadlineSmall"
                 tools:text="Tomato Pasta" />
 
@@ -47,8 +47,8 @@
                 android:id="@+id/text_detail_meta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="4dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                android:paddingTop="@dimen/space_xs"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 tools:text="Serves 2 · 25 min" />
 
@@ -57,20 +57,19 @@
                 android:id="@+id/text_detail_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="12dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                android:paddingTop="@dimen/space_md"
                 android:textAppearance="?attr/textAppearanceLabelLarge"
                 tools:text="You can cook this now" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="24dp"
-                android:paddingBottom="4dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                android:paddingTop="@dimen/space_xl"
+                android:paddingBottom="@dimen/space_xs"
                 android:text="@string/detail_ingredients"
-                android:textAppearance="?attr/textAppearanceTitleSmall"
-                android:textColor="?attr/colorPrimary" />
+                android:textAppearance="@style/TextAppearance.Skaflik.SectionHeading" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_ingredients"
@@ -81,12 +80,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="24dp"
-                android:paddingBottom="8dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                android:paddingTop="@dimen/space_xl"
+                android:paddingBottom="@dimen/space_sm"
                 android:text="@string/detail_steps"
-                android:textAppearance="?attr/textAppearanceTitleSmall"
-                android:textColor="?attr/colorPrimary" />
+                android:textAppearance="@style/TextAppearance.Skaflik.SectionHeading" />
 
             <!-- Steps are added as numbered TextViews at runtime. -->
             <LinearLayout
@@ -94,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="16dp" />
+                android:paddingHorizontal="@dimen/screen_padding_horizontal" />
 
         </LinearLayout>
 

@@ -36,19 +36,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="16dp">
+            android:paddingBottom="@dimen/space_lg">
 
             <!-- Strict matches: recipes the pantry fully covers. -->
             <TextView
                 android:id="@+id/text_suggested_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="4dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                android:paddingTop="@dimen/space_lg"
+                android:paddingBottom="@dimen/space_xs"
                 android:text="@string/suggestions_can_cook"
-                android:textAppearance="?attr/textAppearanceTitleSmall"
-                android:textColor="?attr/colorPrimary" />
+                android:textAppearance="@style/TextAppearance.Skaflik.SectionHeading" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_suggested"
@@ -61,8 +60,8 @@
                 android:id="@+id/text_empty_suggestions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="32dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginHorizontal="@dimen/space_xxl"
+                android:layout_marginTop="@dimen/space_xxl"
                 android:gravity="center"
                 android:text="@string/empty_suggestions"
                 android:textAppearance="?attr/textAppearanceBodyLarge"
@@ -73,8 +72,8 @@
                 android:id="@+id/divider_almost_there"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:layout_marginTop="@dimen/space_xl"
                 android:background="?attr/colorOutline"
                 android:visibility="gone" />
 
@@ -82,9 +81,9 @@
                 android:id="@+id/text_almost_there_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="4dp"
+                android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                android:paddingTop="@dimen/space_lg"
+                android:paddingBottom="@dimen/space_xs"
                 android:text="@string/suggestions_almost_there"
                 android:textAppearance="?attr/textAppearanceTitleSmall"
                 android:textColor="?attr/colorSecondary"

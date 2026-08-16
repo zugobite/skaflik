@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Shared widget styles.
+
+    Every card, button and text field in the app uses one of these, so corner
+    rounding and padding are defined once instead of being repeated - and
+    corrected - in each layout.
+-->
+<resources>
+
+    <!-- Rounded corners applied to cards and to the button below. -->
+    <style name="ShapeAppearance.Skaflik.Rounded" parent="ShapeAppearance.Material3.Corner.Medium">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/corner_radius</item>
+    </style>
+
+    <!-- Every list row card: same radius, elevation and margins. -->
+    <style name="Widget.Skaflik.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">@dimen/corner_radius</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="android:layout_marginStart">@dimen/list_item_margin_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/list_item_margin_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/list_item_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/list_item_margin_vertical</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <!-- Primary action button. -->
+    <style name="Widget.Skaflik.Button" parent="Widget.Material3.Button">
+        <item name="shapeAppearance">@style/ShapeAppearance.Skaflik.Rounded</item>
+        <item name="android:minHeight">@dimen/touch_target_min</item>
+        <item name="android:paddingStart">@dimen/button_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/button_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/button_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/button_padding_vertical</item>
+    </style>
+
+    <!--
+        Form fields. Material's outlined box takes its corner sizes as four
+        separate attributes rather than a shape appearance, so all four are set
+        to the same value the cards and buttons use.
+    -->
+    <style name="Widget.Skaflik.TextField" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">@dimen/corner_radius_control</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_radius_control</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_radius_control</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius_control</item>
+        <item name="android:layout_marginTop">@dimen/field_spacing</item>
+    </style>
+
+    <!-- Section heading above a list. -->
+    <style name="TextAppearance.Skaflik.SectionHeading" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+</resources>

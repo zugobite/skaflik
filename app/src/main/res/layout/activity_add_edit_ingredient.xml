@@ -33,12 +33,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="@dimen/screen_padding_horizontal">
 
             <!-- Name -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_name"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Skaflik.TextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/field_name"
@@ -57,10 +57,9 @@
             <!-- Quantity -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_quantity"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Skaflik.TextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:hint="@string/field_quantity">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -76,7 +75,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:text="@string/field_unit"
                 android:textAppearance="?attr/textAppearanceLabelLarge" />
 
@@ -84,16 +82,15 @@
                 android:id="@+id/spinner_unit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:minHeight="48dp" />
+                android:layout_marginTop="@dimen/space_xs"
+                android:minHeight="@dimen/touch_target_min" />
 
             <!-- Expiry date, optional -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_expiry"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Skaflik.TextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:hint="@string/field_expiry"
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/ic_calendar"
@@ -112,10 +109,10 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_save"
+                style="@style/Widget.Skaflik.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:minHeight="48dp"
+                android:layout_marginTop="@dimen/space_xxl"
                 android:text="@string/action_save" />
 
         </LinearLayout>

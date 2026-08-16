@@ -8,7 +8,12 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/skaflik_terracotta</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/skaflik_green_dark</item>
+        <!--
+            targetSdk 36 enforces edge-to-edge, so the system ignores
+            statusBarColor and the bar sits over the window background. Asking
+            for dark status-bar icons keeps the clock readable against it.
+        -->
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <!-- Required by PreferenceFragmentCompat; without it the Settings
              screen throws when it inflates. -->
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>

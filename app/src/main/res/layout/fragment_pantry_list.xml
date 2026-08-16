@@ -7,7 +7,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_pantry"
@@ -26,12 +27,17 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingBottom="88dp"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/toolbar_pantry"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <!-- Shown instead of the list when the pantry is empty. -->
+    <!--
+        Shown instead of the list when the pantry is empty. Visible by default
+        so the screen reads as "empty" rather than blank while the first load
+        is still in flight, or if it never completes.
+    -->
     <TextView
         android:id="@+id/text_empty_pantry"
         android:layout_width="0dp"
@@ -40,7 +46,6 @@
         android:gravity="center"
         android:text="@string/empty_pantry"
         android:textAppearance="?attr/textAppearanceBodyLarge"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/toolbar_pantry"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

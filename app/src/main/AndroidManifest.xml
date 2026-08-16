@@ -26,8 +26,13 @@
             </intent-filter>
         </activity>
 
-        <!-- Child activities launched via explicit Intents are registered here as they are built:
-             .ui.AddEditIngredientActivity and .ui.RecipeDetailActivity -->
+        <!-- Add / Edit Ingredient, launched from the pantry list via an explicit Intent. -->
+        <activity
+            android:name=".ui.AddEditIngredientActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
+        <!-- Recipe Detail is registered here once it is built. -->
 
     </application>
 

@@ -118,14 +118,19 @@ public class PantryListFragment extends Fragment
 
     /** Opens the Add/Edit screen with no item, so it starts in "add" mode. */
     private void openAddScreen() {
-        // Wired up in the next phase, once AddEditIngredientActivity exists.
-        showMessage(getString(R.string.pantry_add_coming_soon));
+        startActivity(AddEditIngredientActivity.createIntent(requireContext(), null));
     }
 
+    /**
+     * Opens the tapped item for editing.
+     *
+     * <p>Only the document ID travels in the Intent; the edit screen reloads the
+     * item itself. Passing an ID rather than the whole object keeps the two
+     * screens from disagreeing if the data changed in between.</p>
+     */
     @Override
     public void onItemClicked(@NonNull PantryItem item) {
-        // Wired up in the next phase, once AddEditIngredientActivity exists.
-        showMessage(getString(R.string.pantry_edit_coming_soon, item.getName()));
+        startActivity(AddEditIngredientActivity.createIntent(requireContext(), item.getId()));
     }
 
     @Override

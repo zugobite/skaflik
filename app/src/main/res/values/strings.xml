@@ -10,8 +10,6 @@
     <!-- Pantry list -->
     <string name="pantry_add_item">Add an ingredient</string>
     <string name="pantry_expires_on">Expires %1$s</string>
-    <string name="pantry_add_coming_soon">The add screen is coming next.</string>
-    <string name="pantry_edit_coming_soon">Editing %1$s is coming next.</string>
 
     <!-- Delete confirmation -->
     <string name="delete_item_title">Remove ingredient?</string>
@@ -20,7 +18,37 @@
     <string name="action_delete">Remove</string>
     <string name="action_cancel">Cancel</string>
 
+    <!-- Add / Edit Ingredient -->
+    <string name="title_add_ingredient">Add ingredient</string>
+    <string name="title_edit_ingredient">Edit ingredient</string>
+    <string name="field_name">Ingredient name</string>
+    <string name="field_quantity">Quantity</string>
+    <string name="field_unit">Unit</string>
+    <string name="field_expiry">Expiry date (optional)</string>
+    <string name="field_expiry_helper">Tap to pick a date</string>
+    <string name="action_save">Save</string>
+    <string name="save_added">%1$s added to your pantry.</string>
+    <string name="save_updated">%1$s updated.</string>
+
+    <!-- Validation messages -->
+    <string name="error_name_required">Enter an ingredient name</string>
+    <string name="error_name_too_long">Keep the name to %1$d characters or fewer</string>
+    <string name="error_quantity_required">Enter a quantity</string>
+    <string name="error_quantity_numeric">Enter a valid number</string>
+    <string name="error_quantity_positive">Quantity must be greater than zero</string>
+    <string name="warning_expiry_past">Heads up: that date has already passed.</string>
+
+    <!-- Duplicate merge -->
+    <string name="merge_title">Already in your pantry</string>
+    <string name="merge_message">You already have %1$s. Combine them into %2$s %3$s?</string>
+    <string name="merge_combine">Combine</string>
+    <string name="merge_keep_separate">Keep separate</string>
+    <string name="merge_done">%1$s combined.</string>
+
     <!-- Backend errors -->
+    <string name="error_save_item">Could not save that ingredient. Please try again.</string>
+    <string name="error_load_item">Could not open that ingredient.</string>
+    <string name="error_item_missing">That ingredient is no longer in your pantry.</string>
     <string name="error_load_pantry">Could not load your pantry. Check your connection.</string>
     <string name="error_delete_item">Could not remove that ingredient. Please try again.</string>
     <string name="error_sign_in">Could not reach Skaflik\'s backend. Your pantry will still work offline.</string>

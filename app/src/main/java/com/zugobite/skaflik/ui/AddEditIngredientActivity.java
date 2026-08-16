@@ -29,8 +29,10 @@ import com.zugobite.skaflik.model.PantryItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -134,21 +136,28 @@ public class AddEditIngredientActivity extends AppCompatActivity {
     }
 
     /**
-     * Fills the unit dropdown with every unit the app can convert.
+     * Fills the unit dropdown with the units for the chosen system.
      *
-     * <p>All units are always offered, whichever system the user prefers – the
-     * preference only decides which one is selected first for a new item, so
-     * changing it can never strand something already saved in the other
-     * system.</p>
+     * <p>Picking "Imperial" in Settings shows imperial units, not the whole
+     * list – offering all twelve regardless would make the setting look like it
+     * had done nothing.</p>
+     *
+     * <p>The one exception is handled in {@link #populateForm}: an item saved
+     * under the other system keeps its own unit in the list, so switching
+     * systems can never leave an existing item uneditable.</p>
      */
     private void setUpUnitPicker() {
-        ArrayAdapter<String> unitAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, UnitConverter.ALLOWED_UNITS);
-        unitInput.setAdapter(unitAdapter);
+        applyUnitOptions(UserPreferences.getPreferredUnits(this));
 
         // The field is a dropdown, not free text, so it always starts on a
         // valid unit rather than empty.
         unitInput.setText(UserPreferences.getDefaultUnit(this), false);
+    }
+
+    /** Points the dropdown at a list of units. */
+    private void applyUnitOptions(@NonNull List<String> units) {
+        unitInput.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, units));
     }
 
     /**
@@ -212,6 +221,13 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         expiryInput.setText(item.getExpiryDate());
 
         if (UnitConverter.isKnownUnit(item.getUnit())) {
+            // An item saved in the other system must stay editable, so its unit
+            // joins the list rather than being silently swapped for a default.
+            List<String> units = new ArrayList<>(UserPreferences.getPreferredUnits(this));
+            if (!units.contains(item.getUnit())) {
+                units.add(0, item.getUnit());
+                applyUnitOptions(units);
+            }
             unitInput.setText(item.getUnit(), false);
         }
     }

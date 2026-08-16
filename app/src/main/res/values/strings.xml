@@ -7,7 +7,22 @@
     <string name="nav_suggestions">Suggestions</string>
     <string name="nav_settings">Settings</string>
 
+    <!-- Pantry list -->
+    <string name="pantry_add_item">Add an ingredient</string>
+    <string name="pantry_expires_on">Expires %1$s</string>
+    <string name="pantry_add_coming_soon">The add screen is coming next.</string>
+    <string name="pantry_edit_coming_soon">Editing %1$s is coming next.</string>
+
+    <!-- Delete confirmation -->
+    <string name="delete_item_title">Remove ingredient?</string>
+    <string name="delete_item_message">Remove %1$s from your pantry?</string>
+    <string name="delete_item_done">%1$s removed.</string>
+    <string name="action_delete">Remove</string>
+    <string name="action_cancel">Cancel</string>
+
     <!-- Backend errors -->
+    <string name="error_load_pantry">Could not load your pantry. Check your connection.</string>
+    <string name="error_delete_item">Could not remove that ingredient. Please try again.</string>
     <string name="error_sign_in">Could not reach Skaflik\'s backend. Your pantry will still work offline.</string>
     <string name="error_seed">Could not load the recipe list. Check your connection and reopen the app.</string>
 

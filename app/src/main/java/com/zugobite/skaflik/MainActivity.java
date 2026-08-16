@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.zugobite.skaflik.data.AuthManager;
 import com.zugobite.skaflik.data.RecipeSeeder;
 import com.zugobite.skaflik.data.RepositoryCallback;
+import com.zugobite.skaflik.ui.PantryListFragment;
 
 /**
  * Host activity for Skaflik.
@@ -104,9 +105,17 @@ public class MainActivity extends AppCompatActivity {
      * @return true once the destination has been shown
      */
     private boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
-        // TODO (Phase 5/11/14): replace these placeholders with
-        // PantryListFragment, SuggestedRecipesFragment and SettingsFragment.
-        Fragment destination = new Fragment();
+        Fragment destination;
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.nav_pantry) {
+            destination = new PantryListFragment();
+        } else {
+            // Suggestions and Settings arrive in later phases; until then their
+            // tabs show an empty screen rather than crashing.
+            destination = new Fragment();
+        }
+
         showFragment(destination);
         return true;
     }

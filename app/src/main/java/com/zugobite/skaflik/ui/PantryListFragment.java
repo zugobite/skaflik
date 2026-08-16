@@ -143,7 +143,9 @@ public class PantryListFragment extends Fragment
             public void onError(@NonNull Exception error) {
                 Log.e(TAG, "Could not load the pantry", error);
                 if (isAdded()) {
-                    showMessage(getString(R.string.error_load_pantry));
+                    showMessage(RepositoryCallback.messageFor(error,
+                            getString(R.string.error_load_pantry),
+                            getString(R.string.error_permission_denied)));
                 }
             }
         });

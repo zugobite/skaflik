@@ -14,6 +14,31 @@ import androidx.annotation.NonNull;
  */
 public interface RepositoryCallback<T> {
 
+    /**
+     * Turns a Firestore failure into the right message for the user.
+     *
+     * <p>Every backend failure used to be reported as "check your connection",
+     * which is wrong and unhelpful when the real cause is that the security
+     * rules rejected the request – no amount of reconnecting fixes that.</p>
+     *
+     * @param error       the failure from Firestore
+     * @param networkText what to say when the cause really is connectivity
+     * @param deniedText  what to say when the rules refused the request
+     * @return the message to show
+     */
+    static String messageFor(@NonNull Exception error,
+                             @NonNull String networkText,
+                             @NonNull String deniedText) {
+        if (error instanceof com.google.firebase.firestore.FirebaseFirestoreException) {
+            com.google.firebase.firestore.FirebaseFirestoreException.Code code =
+                    ((com.google.firebase.firestore.FirebaseFirestoreException) error).getCode();
+            if (code == com.google.firebase.firestore.FirebaseFirestoreException.Code.PERMISSION_DENIED) {
+                return deniedText;
+            }
+        }
+        return networkText;
+    }
+
     /** Called when the operation completed and returned {@code result}. */
     void onSuccess(T result);
 

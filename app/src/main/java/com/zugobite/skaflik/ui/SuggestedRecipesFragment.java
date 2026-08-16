@@ -132,7 +132,9 @@ public class SuggestedRecipesFragment extends Fragment
             public void onError(@NonNull Exception error) {
                 Log.e(TAG, "Could not load the pantry", error);
                 if (isAdded()) {
-                    showMessage(getString(R.string.error_load_pantry));
+                    showMessage(RepositoryCallback.messageFor(error,
+                            getString(R.string.error_load_pantry),
+                            getString(R.string.error_permission_denied)));
                 }
             }
         });
@@ -152,7 +154,9 @@ public class SuggestedRecipesFragment extends Fragment
             public void onError(@NonNull Exception error) {
                 Log.e(TAG, "Could not load recipes", error);
                 if (isAdded()) {
-                    showMessage(getString(R.string.error_load_recipes));
+                    showMessage(RepositoryCallback.messageFor(error,
+                            getString(R.string.error_load_recipes),
+                            getString(R.string.error_permission_denied)));
                 }
             }
         });

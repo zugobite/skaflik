@@ -79,6 +79,7 @@
     <string name="error_load_item">Could not open that ingredient.</string>
     <string name="error_item_missing">That ingredient is no longer in your pantry.</string>
     <string name="error_load_pantry">Could not load your pantry. Check your connection.</string>
+    <string name="error_permission_denied">Skaflik is not allowed to read your data. The Firestore security rules need publishing.</string>
     <string name="error_delete_item">Could not remove that ingredient. Please try again.</string>
     <string name="error_sign_in">Could not reach Skaflik\'s backend. Your pantry will still work offline.</string>
     <string name="error_seed">Could not load the recipe list. Check your connection and reopen the app.</string>

@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(@NonNull Exception error) {
                 Log.e(TAG, "Recipe seeding failed", error);
-                showBackendError(R.string.error_seed);
+                showBackendError(error);
             }
         });
     }
@@ -98,6 +98,15 @@ public class MainActivity extends AppCompatActivity {
     private void showBackendError(@StringRes int messageResId) {
         Snackbar.make(findViewById(R.id.fragment_container),
                 messageResId, Snackbar.LENGTH_LONG).show();
+    }
+
+    /** Reports a backend failure, naming the actual cause. */
+    private void showBackendError(@NonNull Exception error) {
+        Snackbar.make(findViewById(R.id.fragment_container),
+                RepositoryCallback.messageFor(error,
+                        getString(R.string.error_seed),
+                        getString(R.string.error_permission_denied)),
+                Snackbar.LENGTH_LONG).show();
     }
 
     /**

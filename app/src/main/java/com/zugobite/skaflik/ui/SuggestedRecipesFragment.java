@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import com.zugobite.skaflik.R;
 import com.zugobite.skaflik.adapter.RecipeAdapter;
+import com.zugobite.skaflik.data.AuthManager;
 import com.zugobite.skaflik.data.PantryRepository;
 import com.zugobite.skaflik.data.RecipeRepository;
 import com.zugobite.skaflik.data.RepositoryCallback;
@@ -88,7 +89,28 @@ public class SuggestedRecipesFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        loadSuggestions();
+
+        // Both reads need a UID, and sign-in may still be in flight.
+        AuthManager.runWhenSignedIn(
+                () -> {
+                    if (isAdded()) {
+                        loadSuggestions();
+                    }
+                },
+                new RepositoryCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        // Not used; success is handled by the Runnable above.
+                    }
+
+                    @Override
+                    public void onError(@NonNull Exception error) {
+                        Log.e(TAG, "Sign-in failed, cannot load suggestions", error);
+                        if (isAdded()) {
+                            showMessage(getString(R.string.error_sign_in));
+                        }
+                    }
+                });
     }
 
     /**

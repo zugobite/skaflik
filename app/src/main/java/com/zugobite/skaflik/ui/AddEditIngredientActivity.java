@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import com.zugobite.skaflik.R;
+import com.zugobite.skaflik.data.AuthManager;
 import com.zugobite.skaflik.data.PantryRepository;
 import com.zugobite.skaflik.data.RepositoryCallback;
 import com.zugobite.skaflik.data.UserPreferences;
@@ -98,7 +99,25 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> finish());
 
         if (isEditing) {
-            loadExistingItem(editingItemId);
+            // Normally the user arrives here from the pantry list, so sign-in
+            // has already happened – but this activity can also be recreated
+            // directly after process death, when it has not.
+            final String itemId = editingItemId;
+            AuthManager.runWhenSignedIn(
+                    () -> loadExistingItem(itemId),
+                    new RepositoryCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void result) {
+                            // Not used; success is handled by the Runnable above.
+                        }
+
+                        @Override
+                        public void onError(@NonNull Exception error) {
+                            Log.e(TAG, "Sign-in failed, cannot load the item", error);
+                            showMessage(getString(R.string.error_sign_in));
+                            finish();
+                        }
+                    });
         }
 
         MaterialButton saveButton = findViewById(R.id.button_save);

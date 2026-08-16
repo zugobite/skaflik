@@ -20,6 +20,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 
 import com.zugobite.skaflik.R;
 import com.zugobite.skaflik.adapter.PantryAdapter;
+import com.zugobite.skaflik.data.AuthManager;
 import com.zugobite.skaflik.data.PantryRepository;
 import com.zugobite.skaflik.data.RepositoryCallback;
 import com.zugobite.skaflik.data.UserPreferences;
@@ -50,6 +51,9 @@ public class PantryListFragment extends Fragment
     @Nullable
     private ListenerRegistration pantryListener;
 
+    /** Guards against attaching a listener after the fragment has stopped. */
+    private boolean isStarted;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -76,7 +80,31 @@ public class PantryListFragment extends Fragment
     @Override
     public void onStart() {
         super.onStart();
-        observePantry();
+        isStarted = true;
+
+        // Sign-in is asynchronous and this fragment is created before it
+        // finishes on a cold start, so wait for the UID rather than assume it.
+        AuthManager.runWhenSignedIn(
+                () -> {
+                    // The fragment may have stopped while sign-in was in flight.
+                    if (isAdded() && isStarted) {
+                        observePantry();
+                    }
+                },
+                new RepositoryCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        // Not used; success is handled by the Runnable above.
+                    }
+
+                    @Override
+                    public void onError(@NonNull Exception error) {
+                        Log.e(TAG, "Sign-in failed, cannot load the pantry", error);
+                        if (isAdded()) {
+                            showMessage(getString(R.string.error_sign_in));
+                        }
+                    }
+                });
     }
 
     @Override
@@ -90,6 +118,7 @@ public class PantryListFragment extends Fragment
     @Override
     public void onStop() {
         super.onStop();
+        isStarted = false;
         // Without this the listener keeps firing into a dead view hierarchy.
         if (pantryListener != null) {
             pantryListener.remove();

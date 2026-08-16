@@ -39,6 +39,31 @@ public final class AuthManager {
     }
 
     /**
+     * Runs an action once a UID is available.
+     *
+     * <p>Sign-in is asynchronous, so any screen that touches Firestore has to
+     * wait for it rather than assume it has already happened – on a cold start
+     * the first screen is created long before the UID arrives.</p>
+     *
+     * @param onReady runs when a user is signed in
+     * @param onError runs if sign-in fails
+     */
+    public static void runWhenSignedIn(@NonNull Runnable onReady,
+                                       @NonNull RepositoryCallback<Void> onError) {
+        ensureSignedIn(new RepositoryCallback<String>() {
+            @Override
+            public void onSuccess(String userId) {
+                onReady.run();
+            }
+
+            @Override
+            public void onError(@NonNull Exception error) {
+                onError.onError(error);
+            }
+        });
+    }
+
+    /**
      * Signs in anonymously if needed, then hands back the UID.
      *
      * <p>Safe to call on every launch: if the device already has a session,

@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import com.zugobite.skaflik.R;
 import com.zugobite.skaflik.adapter.IngredientLineAdapter;
+import com.zugobite.skaflik.data.AuthManager;
 import com.zugobite.skaflik.data.PantryRepository;
 import com.zugobite.skaflik.data.RecipeRepository;
 import com.zugobite.skaflik.data.RepositoryCallback;
@@ -83,7 +84,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         ingredientRecycler.setLayoutManager(new LinearLayoutManager(this));
         ingredientRecycler.setAdapter(ingredientAdapter);
 
-        String recipeId = getIntent().getStringExtra(EXTRA_RECIPE_ID);
+        final String recipeId = getIntent().getStringExtra(EXTRA_RECIPE_ID);
         if (recipeId == null) {
             // Launched without an ID, which should not happen; fail visibly.
             Log.e(TAG, "Opened with no recipe ID");
@@ -92,7 +93,22 @@ public class RecipeDetailActivity extends AppCompatActivity {
             return;
         }
 
-        loadRecipe(recipeId);
+        // Reading recipes requires a signed-in user under the security rules.
+        AuthManager.runWhenSignedIn(
+                () -> loadRecipe(recipeId),
+                new RepositoryCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        // Not used; success is handled by the Runnable above.
+                    }
+
+                    @Override
+                    public void onError(@NonNull Exception error) {
+                        Log.e(TAG, "Sign-in failed, cannot load the recipe", error);
+                        showMessage(getString(R.string.error_sign_in));
+                        finish();
+                    }
+                });
     }
 
     /** Loads the recipe, then the pantry it will be measured against. */

@@ -6,14 +6,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.color.MaterialColors;
 
 import com.zugobite.skaflik.R;
 import com.zugobite.skaflik.model.PantryItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Binds the user's pantry to the RecyclerView on the Pantry List screen.
@@ -24,6 +32,12 @@ import java.util.Locale;
  * and handles the taps.</p>
  */
 public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryViewHolder> {
+
+    /** Expiry dates are stored in ISO form. */
+    private static final String EXPIRY_DATE_PATTERN = "yyyy-MM-dd";
+
+    /** How close an expiry date has to be before the row is flagged. */
+    private static final long EXPIRING_SOON_WINDOW_MILLIS = TimeUnit.DAYS.toMillis(7);
 
     /** How the fragment hears about taps on a row. */
     public interface OnItemActionListener {
@@ -38,8 +52,25 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
     private final List<PantryItem> items = new ArrayList<>();
     private final OnItemActionListener listener;
 
-    public PantryAdapter(@NonNull OnItemActionListener listener) {
+    /** Mirrors the Settings toggle; when off, expiry dates are shown plainly. */
+    private boolean highlightExpiring;
+
+    public PantryAdapter(@NonNull OnItemActionListener listener, boolean highlightExpiring) {
         this.listener = listener;
+        this.highlightExpiring = highlightExpiring;
+    }
+
+    /**
+     * Updates whether expiring items are highlighted.
+     *
+     * <p>Called when the fragment resumes, so a change made in Settings shows
+     * up without restarting the app.</p>
+     */
+    public void setHighlightExpiring(boolean highlightExpiring) {
+        if (this.highlightExpiring != highlightExpiring) {
+            this.highlightExpiring = highlightExpiring;
+            notifyDataSetChanged();
+        }
     }
 
     /**
@@ -104,6 +135,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
                 expiryView.setVisibility(View.VISIBLE);
                 expiryView.setText(itemView.getContext()
                         .getString(R.string.pantry_expires_on, item.getExpiryDate()));
+                applyExpiryHighlight(item);
             } else {
                 // Recycled rows may still show a previous item's expiry line.
                 expiryView.setVisibility(View.GONE);
@@ -114,6 +146,35 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
                 listener.onItemLongPressed(item);
                 return true;
             });
+        }
+
+        /**
+         * Colours the expiry line when the date is near or past, provided the
+         * user has left the alerts setting on.
+         */
+        private void applyExpiryHighlight(@NonNull PantryItem item) {
+            boolean expiringSoon = highlightExpiring && isExpiringSoon(item.getExpiryDate());
+            expiryView.setTextColor(expiringSoon
+                    ? ContextCompat.getColor(itemView.getContext(), R.color.skaflik_terracotta)
+                    : MaterialColors.getColor(expiryView, com.google.android.material.R.attr.colorOnSurfaceVariant));
+        }
+
+        /** True when the date is within the next week, or already past. */
+        private boolean isExpiringSoon(@Nullable String isoDate) {
+            if (isoDate == null || isoDate.isEmpty()) {
+                return false;
+            }
+            try {
+                Date expiry = new SimpleDateFormat(EXPIRY_DATE_PATTERN, Locale.US).parse(isoDate);
+                if (expiry == null) {
+                    return false;
+                }
+                long millisUntilExpiry = expiry.getTime() - System.currentTimeMillis();
+                return millisUntilExpiry <= EXPIRING_SOON_WINDOW_MILLIS;
+            } catch (ParseException malformed) {
+                // A date we cannot read is not worth warning about.
+                return false;
+            }
         }
 
         /**

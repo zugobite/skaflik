@@ -9,6 +9,9 @@
         <item name="colorSecondary">@color/skaflik_terracotta</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/skaflik_green_dark</item>
+        <!-- Required by PreferenceFragmentCompat; without it the Settings
+             screen throws when it inflates. -->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
 </resources>

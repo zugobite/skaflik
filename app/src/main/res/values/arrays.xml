@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Shown in the unit-system picker. -->
+    <string-array name="unit_system_labels">
+        <item>Metric (g, kg, ml, l)</item>
+        <item>Imperial (oz, lb, fl oz, pint)</item>
+    </string-array>
+
+    <!-- Stored values; must match the constants in UserPreferences. -->
+    <string-array name="unit_system_values">
+        <item>metric</item>
+        <item>imperial</item>
+    </string-array>
+
+</resources>

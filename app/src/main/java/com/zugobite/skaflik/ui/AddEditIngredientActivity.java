@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.zugobite.skaflik.R;
 import com.zugobite.skaflik.data.PantryRepository;
 import com.zugobite.skaflik.data.RepositoryCallback;
+import com.zugobite.skaflik.data.UserPreferences;
 import com.zugobite.skaflik.logic.UnitConverter;
 import com.zugobite.skaflik.model.PantryItem;
 
@@ -113,12 +114,25 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         unitSpinner = findViewById(R.id.spinner_unit);
     }
 
-    /** Fills the spinner from the one list of units the app can convert. */
+    /**
+     * Fills the spinner with every unit the app can convert.
+     *
+     * <p>All units are always offered, whichever system the user prefers – the
+     * preference only decides which one is selected first for a new item, so
+     * changing it can never strand something already saved in the other
+     * system.</p>
+     */
     private void setUpUnitSpinner() {
         ArrayAdapter<String> unitAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, UnitConverter.ALLOWED_UNITS);
         unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(unitAdapter);
+
+        int defaultPosition = UnitConverter.ALLOWED_UNITS
+                .indexOf(UserPreferences.getDefaultUnit(this));
+        if (defaultPosition >= 0) {
+            unitSpinner.setSelection(defaultPosition);
+        }
     }
 
     /**

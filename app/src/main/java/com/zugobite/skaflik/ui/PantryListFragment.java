@@ -22,6 +22,7 @@ import com.zugobite.skaflik.R;
 import com.zugobite.skaflik.adapter.PantryAdapter;
 import com.zugobite.skaflik.data.PantryRepository;
 import com.zugobite.skaflik.data.RepositoryCallback;
+import com.zugobite.skaflik.data.UserPreferences;
 import com.zugobite.skaflik.model.PantryItem;
 
 import java.util.List;
@@ -63,7 +64,8 @@ public class PantryListFragment extends Fragment
         recyclerView = view.findViewById(R.id.recycler_pantry);
         emptyStateView = view.findViewById(R.id.text_empty_pantry);
 
-        adapter = new PantryAdapter(this);
+        adapter = new PantryAdapter(this,
+                UserPreferences.isExpiryAlertsEnabled(requireContext()));
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
 
@@ -75,6 +77,14 @@ public class PantryListFragment extends Fragment
     public void onStart() {
         super.onStart();
         observePantry();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Pick up a change made on the Settings tab without needing a restart.
+        adapter.setHighlightExpiring(
+                UserPreferences.isExpiryAlertsEnabled(requireContext()));
     }
 
     @Override

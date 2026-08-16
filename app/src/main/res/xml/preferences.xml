@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Settings screen contents. The keys here must match the constants in
+    UserPreferences, which is what the rest of the app reads.
+-->
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/settings_category_pantry">
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="pref_expiry_alerts"
+            app:summaryOff="@string/settings_expiry_alerts_off"
+            app:summaryOn="@string/settings_expiry_alerts_on"
+            app:title="@string/settings_expiry_alerts" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_category_units">
+
+        <ListPreference
+            app:defaultValue="metric"
+            app:entries="@array/unit_system_labels"
+            app:entryValues="@array/unit_system_values"
+            app:key="pref_unit_system"
+            app:title="@string/settings_unit_system"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_category_about">
+
+        <Preference
+            app:key="pref_about"
+            app:selectable="false"
+            app:summary="@string/settings_about_summary"
+            app:title="@string/app_name" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

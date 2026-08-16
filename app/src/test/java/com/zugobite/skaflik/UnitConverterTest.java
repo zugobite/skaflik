@@ -128,4 +128,80 @@ public class UnitConverterTest {
                     UnitConverter.familyOf(unit) == UnitConverter.Family.UNKNOWN);
         }
     }
+
+    @Test
+    public void convertForDisplay_rewritesMetricMassAsImperial() {
+        UnitConverter.DisplayQuantity shown =
+                UnitConverter.convertForDisplay(200, "g", UnitConverter.System.IMPERIAL);
+        assertEquals("oz", shown.getUnit());
+        assertEquals(7.0548, shown.getQuantity(), 0.001);
+
+        UnitConverter.DisplayQuantity heavy =
+                UnitConverter.convertForDisplay(1, "kg", UnitConverter.System.IMPERIAL);
+        assertEquals("lb", heavy.getUnit());
+        assertEquals(2.2046, heavy.getQuantity(), 0.001);
+    }
+
+    @Test
+    public void convertForDisplay_rewritesMetricVolumeAsImperial() {
+        UnitConverter.DisplayQuantity shown =
+                UnitConverter.convertForDisplay(200, "ml", UnitConverter.System.IMPERIAL);
+        assertEquals("fl oz", shown.getUnit());
+        assertEquals(7.039, shown.getQuantity(), 0.001);
+
+        UnitConverter.DisplayQuantity large =
+                UnitConverter.convertForDisplay(1, "l", UnitConverter.System.IMPERIAL);
+        assertEquals("pint", large.getUnit());
+        assertEquals(1.7598, large.getQuantity(), 0.001);
+    }
+
+    @Test
+    public void convertForDisplay_rewritesImperialAmountsAsMetric() {
+        UnitConverter.DisplayQuantity mass =
+                UnitConverter.convertForDisplay(2, "lb", UnitConverter.System.METRIC);
+        assertEquals("g", mass.getUnit());
+        assertEquals(907.184, mass.getQuantity(), 0.01);
+
+        UnitConverter.DisplayQuantity volume =
+                UnitConverter.convertForDisplay(4, "fl oz", UnitConverter.System.METRIC);
+        assertEquals("ml", volume.getUnit());
+        assertEquals(113.65, volume.getQuantity(), 0.01);
+    }
+
+    @Test
+    public void convertForDisplay_picksTheUnitThatSuitsTheSize() {
+        assertEquals("g", UnitConverter.convertForDisplay(
+                999, "g", UnitConverter.System.METRIC).getUnit());
+        assertEquals("kg", UnitConverter.convertForDisplay(
+                1500, "g", UnitConverter.System.METRIC).getUnit());
+        assertEquals("ml", UnitConverter.convertForDisplay(
+                0.5, "l", UnitConverter.System.METRIC).getUnit());
+    }
+
+    @Test
+    public void convertForDisplay_leavesSpoonsCupsAndCountsAlone() {
+        // Both systems cook in these, so rewriting them only makes the recipe
+        // harder to follow.
+        UnitConverter.DisplayQuantity spoons =
+                UnitConverter.convertForDisplay(2, "tbsp", UnitConverter.System.IMPERIAL);
+        assertEquals("tbsp", spoons.getUnit());
+        assertEquals(2.0, spoons.getQuantity(), DELTA);
+
+        UnitConverter.DisplayQuantity pieces =
+                UnitConverter.convertForDisplay(3, "piece", UnitConverter.System.IMPERIAL);
+        assertEquals("piece", pieces.getUnit());
+        assertEquals(3.0, pieces.getQuantity(), DELTA);
+    }
+
+    @Test
+    public void convertForDisplay_passesUnknownUnitsThroughUntouched() {
+        UnitConverter.DisplayQuantity shown =
+                UnitConverter.convertForDisplay(1, "handful", UnitConverter.System.IMPERIAL);
+        assertEquals("handful", shown.getUnit());
+        assertEquals(1.0, shown.getQuantity(), DELTA);
+
+        UnitConverter.DisplayQuantity noUnit =
+                UnitConverter.convertForDisplay(1, null, UnitConverter.System.METRIC);
+        assertEquals("", noUnit.getUnit());
+    }
 }

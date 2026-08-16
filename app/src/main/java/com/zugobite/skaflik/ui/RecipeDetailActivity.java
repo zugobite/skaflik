@@ -24,6 +24,7 @@ import com.zugobite.skaflik.data.AuthManager;
 import com.zugobite.skaflik.data.PantryRepository;
 import com.zugobite.skaflik.data.RecipeRepository;
 import com.zugobite.skaflik.data.RepositoryCallback;
+import com.zugobite.skaflik.data.UserPreferences;
 import com.zugobite.skaflik.logic.RecipeSuggestionEngine;
 import com.zugobite.skaflik.model.PantryItem;
 import com.zugobite.skaflik.model.Recipe;
@@ -109,6 +110,14 @@ public class RecipeDetailActivity extends AppCompatActivity {
                         finish();
                     }
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Read on every start, not just on create, so returning from Settings
+        // redraws the amounts in the system the user just chose.
+        ingredientAdapter.setDisplaySystem(UserPreferences.getDisplaySystem(this));
     }
 
     /** Loads the recipe, then the pantry it will be measured against. */

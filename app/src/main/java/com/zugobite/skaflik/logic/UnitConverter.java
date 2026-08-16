@@ -6,9 +6,11 @@ import androidx.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Converts quantities to a common base unit so amounts written in different
@@ -35,6 +37,33 @@ public final class UnitConverter {
         UNKNOWN
     }
 
+    /** The two unit systems a user can ask to read amounts in. */
+    public enum System {
+        METRIC,
+        IMPERIAL
+    }
+
+    /** An amount rewritten for display: a quantity and the unit it is in. */
+    public static final class DisplayQuantity {
+
+        private final double quantity;
+        private final String unit;
+
+        DisplayQuantity(double quantity, @NonNull String unit) {
+            this.quantity = quantity;
+            this.unit = unit;
+        }
+
+        public double getQuantity() {
+            return quantity;
+        }
+
+        @NonNull
+        public String getUnit() {
+            return unit;
+        }
+    }
+
     /** Metric unit codes, offered when the user's preference is metric. */
     public static final List<String> METRIC_UNITS = Collections.unmodifiableList(
             Arrays.asList("g", "kg", "ml", "l", "tsp", "tbsp", "cup", "piece"));
@@ -53,6 +82,14 @@ public final class UnitConverter {
     public static final List<String> ALLOWED_UNITS = Collections.unmodifiableList(
             Arrays.asList("g", "kg", "oz", "lb",
                     "ml", "l", "fl oz", "pint", "tsp", "tbsp", "cup", "piece"));
+
+    /**
+     * Units both systems write recipes in, which are therefore never rewritten
+     * for display. Canonical forms only, as {@link #convertForDisplay} looks
+     * them up after canonicalising.
+     */
+    private static final Set<String> SHARED_UNITS = Collections.unmodifiableSet(
+            new HashSet<>(Arrays.asList("tsp", "tbsp", "cup", "cups")));
 
     /** Unit code → how many base units one of it is worth. */
     private static final Map<String, Double> TO_BASE = new HashMap<>();
@@ -146,6 +183,59 @@ public final class UnitConverter {
         Family familyA = familyOf(unitA);
         Family familyB = familyOf(unitB);
         return familyA != Family.UNKNOWN && familyA == familyB;
+    }
+
+    /**
+     * Rewrites an amount into the unit system the user reads in.
+     *
+     * <p>Recipes are stored in whatever unit they were written in – in practice
+     * metric – so a user on imperial would otherwise be shown grams they have
+     * to convert in their head. The stored recipe is never touched; only what
+     * this screen prints changes.</p>
+     *
+     * <p>Left exactly as given when there is nothing useful to do: counts,
+     * units this app does not know, and the spoon and cup measures, which both
+     * systems share. Turning "1 tbsp" into "0.53 fl oz" would be a faithful
+     * conversion and a worse instruction to cook from.</p>
+     *
+     * <p>Within a family the size of the amount picks the unit, so the reader
+     * gets "2 lb" rather than "32 oz" and "500 ml" rather than "0.5 l".</p>
+     */
+    @NonNull
+    public static DisplayQuantity convertForDisplay(double quantity, @Nullable String unit,
+                                                    @NonNull System system) {
+        String canonical = canonicalise(unit);
+        String original = unit == null ? "" : unit;
+
+        Family family = familyOf(canonical);
+        if (family != Family.MASS && family != Family.VOLUME) {
+            return new DisplayQuantity(quantity, original);
+        }
+        if (SHARED_UNITS.contains(canonical)) {
+            return new DisplayQuantity(quantity, original);
+        }
+
+        double base = quantity * TO_BASE.get(canonical);
+
+        if (family == Family.MASS) {
+            if (system == System.IMPERIAL) {
+                return base < TO_BASE.get("lb")
+                        ? new DisplayQuantity(base / TO_BASE.get("oz"), "oz")
+                        : new DisplayQuantity(base / TO_BASE.get("lb"), "lb");
+            }
+            return base < TO_BASE.get("kg")
+                    ? new DisplayQuantity(base, "g")
+                    : new DisplayQuantity(base / TO_BASE.get("kg"), "kg");
+        }
+
+        if (system == System.IMPERIAL) {
+            return base < TO_BASE.get("pint")
+                    ? new DisplayQuantity(base / TO_BASE.get("fl oz"), "fl oz")
+                    : new DisplayQuantity(base / TO_BASE.get("pint"), "pint");
+        }
+        return base < TO_BASE.get("l")
+                ? new DisplayQuantity(base, "ml")
+                : new DisplayQuantity(base / TO_BASE.get("l"), "l");
     }
 
     /** True when the unit is one this app knows how to convert. */

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.color.MaterialColors;
 
 import com.zugobite.skaflik.R;
+import com.zugobite.skaflik.logic.UnitConverter;
 import com.zugobite.skaflik.model.PantryItem;
 
 import java.text.ParseException;
@@ -55,9 +56,14 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
     /** Mirrors the Settings toggle; when off, expiry dates are shown plainly. */
     private boolean highlightExpiring;
 
-    public PantryAdapter(@NonNull OnItemActionListener listener, boolean highlightExpiring) {
+    /** Mirrors the Settings choice; the system amounts are shown in. */
+    private UnitConverter.System displaySystem;
+
+    public PantryAdapter(@NonNull OnItemActionListener listener, boolean highlightExpiring,
+                         @NonNull UnitConverter.System displaySystem) {
         this.listener = listener;
         this.highlightExpiring = highlightExpiring;
+        this.displaySystem = displaySystem;
     }
 
     /**
@@ -69,6 +75,20 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
     public void setHighlightExpiring(boolean highlightExpiring) {
         if (this.highlightExpiring != highlightExpiring) {
             this.highlightExpiring = highlightExpiring;
+            notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Updates the unit system amounts are shown in.
+     *
+     * <p>Called when the fragment resumes, for the same reason as
+     * {@link #setHighlightExpiring(boolean)}: a change made in Settings should
+     * show up without restarting the app.</p>
+     */
+    public void setDisplaySystem(@NonNull UnitConverter.System displaySystem) {
+        if (this.displaySystem != displaySystem) {
+            this.displaySystem = displaySystem;
             notifyDataSetChanged();
         }
     }
@@ -178,15 +198,20 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         }
 
         /**
-         * Renders the amount without a pointless decimal place, so 4 pieces
-         * reads "4 piece" rather than "4.0 piece".
+         * Renders the amount in the user's unit system, without a pointless
+         * decimal place, so 4 pieces reads "4 piece" rather than "4.0 piece".
+         *
+         * <p>Only the display is converted. The item keeps the unit it was
+         * saved in, which is what the Add/Edit form loads.</p>
          */
         private String formatQuantity(@NonNull PantryItem item) {
-            double quantity = item.getQuantity();
+            UnitConverter.DisplayQuantity shown = UnitConverter.convertForDisplay(
+                    item.getQuantity(), item.getUnit(), displaySystem);
+            double quantity = shown.getQuantity();
             String amount = quantity == Math.floor(quantity)
                     ? String.valueOf((long) quantity)
                     : String.format(Locale.getDefault(), "%.2f", quantity);
-            return amount + " " + item.getUnit();
+            return amount + " " + shown.getUnit();
         }
     }
 }

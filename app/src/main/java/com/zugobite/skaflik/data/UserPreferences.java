@@ -56,6 +56,14 @@ public final class UserPreferences {
         return system == null ? UNIT_SYSTEM_METRIC : system;
     }
 
+    /** The chosen unit system, as the converter expects it. */
+    @NonNull
+    public static UnitConverter.System getDisplaySystem(@NonNull Context context) {
+        return UNIT_SYSTEM_IMPERIAL.equals(getUnitSystem(context))
+                ? UnitConverter.System.IMPERIAL
+                : UnitConverter.System.METRIC;
+    }
+
     /**
      * The units the Add/Edit form should offer first.
      *

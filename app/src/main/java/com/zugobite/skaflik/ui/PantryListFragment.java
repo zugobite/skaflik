@@ -69,7 +69,8 @@ public class PantryListFragment extends Fragment
         emptyStateView = view.findViewById(R.id.text_empty_pantry);
 
         adapter = new PantryAdapter(this,
-                UserPreferences.isExpiryAlertsEnabled(requireContext()));
+                UserPreferences.isExpiryAlertsEnabled(requireContext()),
+                UserPreferences.getDisplaySystem(requireContext()));
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
 
@@ -113,6 +114,7 @@ public class PantryListFragment extends Fragment
         // Pick up a change made on the Settings tab without needing a restart.
         adapter.setHighlightExpiring(
                 UserPreferences.isExpiryAlertsEnabled(requireContext()));
+        adapter.setDisplaySystem(UserPreferences.getDisplaySystem(requireContext()));
     }
 
     @Override

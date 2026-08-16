@@ -16,6 +16,7 @@ import com.zugobite.skaflik.data.AuthManager;
 import com.zugobite.skaflik.data.RecipeSeeder;
 import com.zugobite.skaflik.data.RepositoryCallback;
 import com.zugobite.skaflik.ui.PantryListFragment;
+import com.zugobite.skaflik.ui.SuggestedRecipesFragment;
 
 /**
  * Host activity for Skaflik.
@@ -110,9 +111,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (itemId == R.id.nav_pantry) {
             destination = new PantryListFragment();
+        } else if (itemId == R.id.nav_suggestions) {
+            destination = new SuggestedRecipesFragment();
         } else {
-            // Suggestions and Settings arrive in later phases; until then their
-            // tabs show an empty screen rather than crashing.
+            // Settings arrives in a later phase; until then its tab shows an
+            // empty screen rather than crashing.
             destination = new Fragment();
         }
 

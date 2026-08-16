@@ -11,6 +11,14 @@
     <string name="pantry_add_item">Add an ingredient</string>
     <string name="pantry_expires_on">Expires %1$s</string>
 
+    <!-- Suggested recipes -->
+    <string name="suggestions_can_cook">You can cook these now</string>
+    <string name="suggestions_almost_there">Almost there – missing one ingredient</string>
+    <string name="recipe_meta">Serves %1$d · %2$d min · %3$d ingredients</string>
+    <string name="recipe_missing">Missing: %1$s</string>
+    <string name="recipe_detail_coming_soon">The %1$s recipe screen is coming next.</string>
+    <string name="error_load_recipes">Could not load recipes. Check your connection.</string>
+
     <!-- Delete confirmation -->
     <string name="delete_item_title">Remove ingredient?</string>
     <string name="delete_item_message">Remove %1$s from your pantry?</string>

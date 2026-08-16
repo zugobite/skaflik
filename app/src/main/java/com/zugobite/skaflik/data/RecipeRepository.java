@@ -23,7 +23,7 @@ public class RecipeRepository {
     private final FirebaseFirestore firestore;
 
     public RecipeRepository() {
-        this.firestore = FirebaseFirestore.getInstance();
+        this.firestore = FirestoreProvider.get();
     }
 
     /**

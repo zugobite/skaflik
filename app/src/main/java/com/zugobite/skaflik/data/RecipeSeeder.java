@@ -55,7 +55,7 @@ public final class RecipeSeeder {
      *                 was already done
      */
     public static void seedIfNeeded(@NonNull RepositoryCallback<Integer> callback) {
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore firestore = FirestoreProvider.get();
         DocumentReference seedMarker = firestore
                 .collection(FirestoreContract.COLLECTION_META)
                 .document(FirestoreContract.DOC_SEED);

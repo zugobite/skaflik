@@ -43,3 +43,6 @@ secrets.properties
 # config file, not a secret, and committing it means the project builds and runs
 # straight from a clone - which is what a marker needs. Firestore access is
 # restricted by security rules, not by hiding this file.
+
+# Emulator/adb bug reports, generated in the project root by tooling
+bugreport-*.zip

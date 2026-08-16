@@ -31,7 +31,7 @@ public class PantryRepository {
     private final FirebaseFirestore firestore;
 
     public PantryRepository() {
-        this.firestore = FirebaseFirestore.getInstance();
+        this.firestore = FirestoreProvider.get();
     }
 
     /**

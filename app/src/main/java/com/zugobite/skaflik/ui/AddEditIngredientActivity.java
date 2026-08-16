@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -61,7 +61,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
     private TextInputEditText nameInput;
     private TextInputEditText quantityInput;
     private TextInputEditText expiryInput;
-    private Spinner unitSpinner;
+    private MaterialAutoCompleteTextView unitInput;
 
     /** Null in add mode, set in edit mode. */
     @Nullable
@@ -88,7 +88,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_edit_ingredient);
 
         bindViews();
-        setUpUnitSpinner();
+        setUpUnitPicker();
         setUpExpiryPicker();
 
         editingItemId = getIntent().getStringExtra(EXTRA_ITEM_ID);
@@ -130,28 +130,25 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         nameInput = findViewById(R.id.input_name);
         quantityInput = findViewById(R.id.input_quantity);
         expiryInput = findViewById(R.id.input_expiry);
-        unitSpinner = findViewById(R.id.spinner_unit);
+        unitInput = findViewById(R.id.input_unit);
     }
 
     /**
-     * Fills the spinner with every unit the app can convert.
+     * Fills the unit dropdown with every unit the app can convert.
      *
      * <p>All units are always offered, whichever system the user prefers – the
      * preference only decides which one is selected first for a new item, so
      * changing it can never strand something already saved in the other
      * system.</p>
      */
-    private void setUpUnitSpinner() {
+    private void setUpUnitPicker() {
         ArrayAdapter<String> unitAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, UnitConverter.ALLOWED_UNITS);
-        unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        unitSpinner.setAdapter(unitAdapter);
+                android.R.layout.simple_list_item_1, UnitConverter.ALLOWED_UNITS);
+        unitInput.setAdapter(unitAdapter);
 
-        int defaultPosition = UnitConverter.ALLOWED_UNITS
-                .indexOf(UserPreferences.getDefaultUnit(this));
-        if (defaultPosition >= 0) {
-            unitSpinner.setSelection(defaultPosition);
-        }
+        // The field is a dropdown, not free text, so it always starts on a
+        // valid unit rather than empty.
+        unitInput.setText(UserPreferences.getDefaultUnit(this), false);
     }
 
     /**
@@ -214,9 +211,8 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         quantityInput.setText(formatQuantity(item.getQuantity()));
         expiryInput.setText(item.getExpiryDate());
 
-        int unitPosition = UnitConverter.ALLOWED_UNITS.indexOf(item.getUnit());
-        if (unitPosition >= 0) {
-            unitSpinner.setSelection(unitPosition);
+        if (UnitConverter.isKnownUnit(item.getUnit())) {
+            unitInput.setText(item.getUnit(), false);
         }
     }
 
@@ -230,7 +226,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
 
         String name = textOf(nameInput);
         double quantity = Double.parseDouble(textOf(quantityInput));
-        String unit = (String) unitSpinner.getSelectedItem();
+        String unit = textOf(unitInput);
         String expiry = textOf(expiryInput);
         PantryItem item = new PantryItem(name, null, quantity, unit,
                 expiry.isEmpty() ? null : expiry);
@@ -409,7 +405,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
 
     /** Reads a field's text, never null and always trimmed. */
     @NonNull
-    private String textOf(@NonNull TextInputEditText field) {
+    private String textOf(@NonNull android.widget.TextView field) {
         return field.getText() == null ? "" : field.getText().toString().trim();
     }
 

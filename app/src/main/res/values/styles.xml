@@ -50,6 +50,19 @@
         <item name="android:layout_marginTop">@dimen/field_spacing</item>
     </style>
 
+    <!--
+        Unit picker. Material's exposed dropdown is a TextInputLayout, so it
+        matches the other fields exactly instead of a bare Spinner sitting in
+        the form with no outline and different rounding.
+    -->
+    <style name="Widget.Skaflik.Dropdown" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxCornerRadiusTopStart">@dimen/corner_radius_control</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_radius_control</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_radius_control</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius_control</item>
+        <item name="android:layout_marginTop">@dimen/field_spacing</item>
+    </style>
+
     <!-- Section heading above a list. -->
     <style name="TextAppearance.Skaflik.SectionHeading" parent="TextAppearance.Material3.TitleSmall">
         <item name="android:textColor">?attr/colorPrimary</item>

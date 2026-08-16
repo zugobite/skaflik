@@ -72,18 +72,21 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Unit -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/field_unit"
-                android:textAppearance="?attr/textAppearanceLabelLarge" />
-
-            <Spinner
-                android:id="@+id/spinner_unit"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_unit"
+                style="@style/Widget.Skaflik.Dropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_xs"
-                android:minHeight="@dimen/touch_target_min" />
+                android:hint="@string/field_unit">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/input_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Expiry date, optional -->
             <com.google.android.material.textfield.TextInputLayout

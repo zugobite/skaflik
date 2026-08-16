@@ -35,9 +35,24 @@ public final class UnitConverter {
         UNKNOWN
     }
 
-    /** Canonical unit codes offered in the Add/Edit form's spinner. */
-    public static final List<String> ALLOWED_UNITS = Collections.unmodifiableList(
+    /** Metric unit codes, offered when the user's preference is metric. */
+    public static final List<String> METRIC_UNITS = Collections.unmodifiableList(
             Arrays.asList("g", "kg", "ml", "l", "tsp", "tbsp", "cup", "piece"));
+
+    /** Imperial unit codes, offered when the user's preference is imperial. */
+    public static final List<String> IMPERIAL_UNITS = Collections.unmodifiableList(
+            Arrays.asList("oz", "lb", "fl oz", "pint", "tsp", "tbsp", "cup", "piece"));
+
+    /**
+     * Every unit the Add/Edit spinner can offer.
+     *
+     * <p>Both systems are always accepted, whatever the user's preference: the
+     * preference chooses what the form suggests, and must never invalidate an
+     * item that is already stored.</p>
+     */
+    public static final List<String> ALLOWED_UNITS = Collections.unmodifiableList(
+            Arrays.asList("g", "kg", "oz", "lb",
+                    "ml", "l", "fl oz", "pint", "tsp", "tbsp", "cup", "piece"));
 
     /** Unit code → how many base units one of it is worth. */
     private static final Map<String, Double> TO_BASE = new HashMap<>();
@@ -52,6 +67,12 @@ public final class UnitConverter {
         register("gram", 1.0, Family.MASS);
         register("grams", 1.0, Family.MASS);
         register("kg", 1000.0, Family.MASS);
+        // Imperial mass, converted into the same gram base so a pantry item in
+        // ounces can satisfy a recipe written in grams.
+        register("oz", 28.3495, Family.MASS);
+        register("ounce", 28.3495, Family.MASS);
+        register("lb", 453.592, Family.MASS);
+        register("pound", 453.592, Family.MASS);
 
         // Volume family, base millilitre.
         register("ml", 1.0, Family.VOLUME);
@@ -62,6 +83,12 @@ public final class UnitConverter {
         register("tbsp", 15.0, Family.VOLUME);
         register("cup", 250.0, Family.VOLUME);
         register("cups", 250.0, Family.VOLUME);
+        // Imperial volume, using UK measures to match the cup and spoon sizes
+        // above; both convert into the same millilitre base.
+        register("fl oz", 28.4131, Family.VOLUME);
+        register("floz", 28.4131, Family.VOLUME);
+        register("pint", 568.261, Family.VOLUME);
+        register("pints", 568.261, Family.VOLUME);
 
         // Count family, base "one of the thing".
         register("piece", 1.0, Family.COUNT);

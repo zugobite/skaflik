@@ -74,6 +74,52 @@ public class UnitConverterTest {
     }
 
     @Test
+    public void toBaseUnit_convertsImperialMassToGrams() {
+        assertEquals(28.3495, UnitConverter.toBaseUnit(1, "oz"), 0.001);
+        assertEquals(453.592, UnitConverter.toBaseUnit(1, "lb"), 0.001);
+    }
+
+    @Test
+    public void toBaseUnit_convertsImperialVolumeToMillilitres() {
+        assertEquals(28.4131, UnitConverter.toBaseUnit(1, "fl oz"), 0.001);
+        assertEquals(568.261, UnitConverter.toBaseUnit(1, "pint"), 0.001);
+    }
+
+    @Test
+    public void imperialAndMetric_compareWithinTheSameFamily() {
+        // The whole point of a shared base: 1 lb must satisfy a 400 g requirement.
+        assertTrue(UnitConverter.areComparable("lb", "g"));
+        assertTrue(UnitConverter.toBaseUnit(1, "lb") > UnitConverter.toBaseUnit(400, "g"));
+
+        assertTrue(UnitConverter.areComparable("pint", "ml"));
+        assertFalse(UnitConverter.areComparable("oz", "fl oz"));
+    }
+
+    @Test
+    public void unitSystemLists_containOnlyConvertibleUnits() {
+        for (String unit : UnitConverter.METRIC_UNITS) {
+            assertTrue("Metric unit not convertible: " + unit, UnitConverter.isKnownUnit(unit));
+        }
+        for (String unit : UnitConverter.IMPERIAL_UNITS) {
+            assertTrue("Imperial unit not convertible: " + unit, UnitConverter.isKnownUnit(unit));
+        }
+    }
+
+    @Test
+    public void allowedUnits_containEverythingBothSystemsOffer() {
+        // A unit offered by a preference but missing here could be selected in
+        // Settings and then be unavailable in the Add form.
+        for (String unit : UnitConverter.METRIC_UNITS) {
+            assertTrue(unit + " missing from ALLOWED_UNITS",
+                    UnitConverter.ALLOWED_UNITS.contains(unit));
+        }
+        for (String unit : UnitConverter.IMPERIAL_UNITS) {
+            assertTrue(unit + " missing from ALLOWED_UNITS",
+                    UnitConverter.ALLOWED_UNITS.contains(unit));
+        }
+    }
+
+    @Test
     public void allowedUnits_coverEveryFamily() {
         for (String unit : UnitConverter.ALLOWED_UNITS) {
             assertTrue("Spinner unit not convertible: " + unit,

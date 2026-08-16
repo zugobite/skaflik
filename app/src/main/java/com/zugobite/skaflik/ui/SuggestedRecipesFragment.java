@@ -184,10 +184,19 @@ public class SuggestedRecipesFragment extends Fragment
         almostThereAdapter.submitRecipes(almostThere, missingByRecipeId);
     }
 
+    /**
+     * Opens the tapped recipe.
+     *
+     * <p>Only the recipe ID travels in the Intent; the detail screen loads the
+     * recipe itself.</p>
+     */
     @Override
     public void onRecipeClicked(@NonNull Recipe recipe) {
-        // Recipe Detail arrives in the next phase.
-        showMessage(getString(R.string.recipe_detail_coming_soon, recipe.getName()));
+        if (recipe.getId() == null) {
+            showMessage(getString(R.string.error_recipe_missing));
+            return;
+        }
+        startActivity(RecipeDetailActivity.createIntent(requireContext(), recipe.getId()));
     }
 
     private void showMessage(@NonNull String message) {

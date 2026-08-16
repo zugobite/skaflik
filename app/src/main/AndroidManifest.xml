@@ -32,7 +32,11 @@
             android:exported="false"
             android:parentActivityName=".MainActivity" />
 
-        <!-- Recipe Detail is registered here once it is built. -->
+        <!-- Recipe Detail, launched from the suggestions list via an explicit Intent. -->
+        <activity
+            android:name=".ui.RecipeDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
 
     </application>
 

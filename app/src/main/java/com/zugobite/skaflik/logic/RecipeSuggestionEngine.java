@@ -125,6 +125,49 @@ public final class RecipeSuggestionEngine {
         return findMissingIngredients(recipe, pantryItems).isEmpty();
     }
 
+    /**
+     * How much of an ingredient the pantry holds, expressed in that
+     * ingredient's own unit.
+     *
+     * <p>The Recipe Detail screen uses this to show "you have 2 piece" against
+     * a line needing 4. Only pantry rows in a comparable unit family count, for
+     * the same reason they are ignored when deciding whether a recipe matches.</p>
+     *
+     * @param ingredient  the ingredient to measure against
+     * @param pantryItems what the user has
+     * @return the amount held in the ingredient's unit, or 0 when none applies
+     */
+    public static double availableQuantityFor(@NonNull RecipeIngredient ingredient,
+                                              @NonNull List<PantryItem> pantryItems) {
+        Map<String, List<PantryItem>> pantryByName = indexPantryByNormalisedName(pantryItems);
+        String requiredName = normalisedNameOf(ingredient);
+
+        List<PantryItem> candidates = pantryByName.get(requiredName);
+        if (candidates == null || candidates.isEmpty()) {
+            return 0;
+        }
+
+        double perIngredientUnit = UnitConverter.toBaseUnit(1, ingredient.getUnit());
+        if (perIngredientUnit <= 0) {
+            // Unknown unit, so there is no meaningful figure to report.
+            return 0;
+        }
+
+        double availableInBase = 0;
+        for (PantryItem item : candidates) {
+            if (!UnitConverter.areComparable(item.getUnit(), ingredient.getUnit())) {
+                continue;
+            }
+            double itemInBase = UnitConverter.toBaseUnit(item.getQuantity(), item.getUnit());
+            if (itemInBase > 0) {
+                availableInBase += itemInBase;
+            }
+        }
+
+        // Convert back out of base units into what the recipe line is written in.
+        return availableInBase / perIngredientUnit;
+    }
+
     // --- Internals ---
 
     /**
@@ -156,6 +199,20 @@ public final class RecipeSuggestionEngine {
             matches.add(item);
         }
         return index;
+    }
+
+    /**
+     * The matching key for a recipe ingredient.
+     *
+     * <p>Prefers the key stored with the data, falling back to computing it so
+     * that rows written before the field existed still match.</p>
+     */
+    @NonNull
+    private static String normalisedNameOf(@NonNull RecipeIngredient ingredient) {
+        String stored = ingredient.getNameNorm();
+        return stored == null || stored.isEmpty()
+                ? IngredientMatcher.normalize(ingredient.getName())
+                : stored;
     }
 
     /** Counts how many of a recipe's ingredients the pantry cannot cover. */
@@ -191,11 +248,7 @@ public final class RecipeSuggestionEngine {
      */
     private static boolean isSatisfied(@NonNull RecipeIngredient ingredient,
                                        @NonNull Map<String, List<PantryItem>> pantryByName) {
-        String requiredName = ingredient.getNameNorm() == null || ingredient.getNameNorm().isEmpty()
-                ? IngredientMatcher.normalize(ingredient.getName())
-                : ingredient.getNameNorm();
-
-        List<PantryItem> candidates = pantryByName.get(requiredName);
+        List<PantryItem> candidates = pantryByName.get(normalisedNameOf(ingredient));
         if (candidates == null || candidates.isEmpty()) {
             // Not in the pantry at all.
             return false;

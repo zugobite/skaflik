@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    One ingredient row on the Recipe Detail screen: what the recipe needs,
+    and whether the pantry covers it.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="10dp">
+
+    <ImageView
+        android:id="@+id/image_have_status"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@drawable/ic_check" />
+
+    <TextView
+        android:id="@+id/text_ingredient_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/image_have_status"
+        app:layout_constraintEnd_toStartOf="@id/text_ingredient_amount"
+        tools:text="Tomatoes" />
+
+    <TextView
+        android:id="@+id/text_ingredient_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="4 piece" />
+
+    <!-- Only shown when the pantry falls short. -->
+    <TextView
+        android:id="@+id/text_ingredient_shortfall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:textAppearance="?attr/textAppearanceLabelSmall"
+        android:textColor="?attr/colorSecondary"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/text_ingredient_name"
+        app:layout_constraintStart_toEndOf="@id/image_have_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="You have 2 piece"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

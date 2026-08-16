@@ -16,8 +16,19 @@
     <string name="suggestions_almost_there">Almost there – missing one ingredient</string>
     <string name="recipe_meta">Serves %1$d · %2$d min · %3$d ingredients</string>
     <string name="recipe_missing">Missing: %1$s</string>
-    <string name="recipe_detail_coming_soon">The %1$s recipe screen is coming next.</string>
     <string name="error_load_recipes">Could not load recipes. Check your connection.</string>
+
+    <!-- Recipe detail -->
+    <string name="detail_meta">Serves %1$d · %2$d min</string>
+    <string name="detail_ingredients">Ingredients</string>
+    <string name="detail_steps">Preparation</string>
+    <string name="detail_step_number">%1$d.</string>
+    <string name="detail_no_steps">No preparation steps recorded for this recipe.</string>
+    <string name="detail_can_cook">You have everything for this recipe.</string>
+    <string name="detail_cannot_cook">You are missing some ingredients for this recipe.</string>
+    <string name="detail_you_have">You have %1$s</string>
+    <string name="detail_none_in_pantry">Not in your pantry</string>
+    <string name="error_recipe_missing">That recipe could not be found.</string>
 
     <!-- Delete confirmation -->
     <string name="delete_item_title">Remove ingredient?</string>

@@ -4,34 +4,34 @@ plugins {
 }
 
 android {
-    namespace 'com.zugobite.skaflik'
-    compileSdk 36
+    namespace = 'com.zugobite.skaflik'
+    compileSdk = 36
 
     defaultConfig {
-        applicationId "com.zugobite.skaflik"
+        applicationId = "com.zugobite.skaflik"
         // minSdk 24 as specified in the build plan (Phase 1).
-        minSdk 24
-        targetSdk 36
-        versionCode 1
-        versionName "1.0"
+        minSdk = 24
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
 }
 

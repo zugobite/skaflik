@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Dark-mode theme. Only what genuinely differs is restated here; the colours
+    themselves are swapped in values-night/colors.xml, and everything else is
+    inherited from the shared Theme.Skaflik.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Skaflik" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/skaflik_green</item>
+        <item name="colorPrimaryDark">@color/skaflik_green_dark</item>
+        <!-- Dark text on the light accent green, which white would wash out. -->
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSecondary">@color/skaflik_terracotta</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Light icons in the status bar, the opposite of the day theme. -->
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+</resources>

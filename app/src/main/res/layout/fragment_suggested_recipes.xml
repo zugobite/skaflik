@@ -15,9 +15,9 @@
         android:id="@+id/toolbar_suggestions"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/toolbar_background"
         app:title="@string/nav_suggestions"
-        app:titleTextColor="?attr/colorOnPrimary"
+        app:titleTextColor="@color/toolbar_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -38,9 +38,21 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/space_lg">
 
+            <!--
+                The first load's placeholder, hidden by the fragment once the
+                match has run. Sits above the headings so it occupies the same
+                space the results will.
+            -->
+            <include
+                android:id="@+id/skeleton_suggestions"
+                layout="@layout/view_skeleton_recipes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <!-- Strict matches: recipes the pantry fully covers. -->
             <TextView
                 android:id="@+id/text_suggested_heading"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/screen_padding_horizontal"
@@ -53,7 +65,8 @@
                 android:id="@+id/recycler_suggested"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone" />
 
             <!-- Empty state, shown when nothing matches. -->
             <TextView

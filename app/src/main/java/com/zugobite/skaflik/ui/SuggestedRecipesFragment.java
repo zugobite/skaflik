@@ -58,6 +58,7 @@ public class SuggestedRecipesFragment extends Fragment
     private TextView emptyStateView;
     private TextView almostThereHeading;
     private View almostThereDivider;
+    private SkeletonPulse skeleton;
 
     @Nullable
     @Override
@@ -84,6 +85,16 @@ public class SuggestedRecipesFragment extends Fragment
         almostThereAdapter = new RecipeAdapter(this);
         almostThereRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         almostThereRecycler.setAdapter(almostThereAdapter);
+
+        skeleton = new SkeletonPulse(view.findViewById(R.id.skeleton_suggestions));
+        skeleton.show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Ends the pulse, so the animator stops holding a dead view.
+        skeleton.hide();
     }
 
     @Override
@@ -132,6 +143,7 @@ public class SuggestedRecipesFragment extends Fragment
             public void onError(@NonNull Exception error) {
                 Log.e(TAG, "Could not load the pantry", error);
                 if (isAdded()) {
+                    stopLoading();
                     showMessage(RepositoryCallback.messageFor(error,
                             getString(R.string.error_load_pantry),
                             getString(R.string.error_permission_denied)));
@@ -154,6 +166,7 @@ public class SuggestedRecipesFragment extends Fragment
             public void onError(@NonNull Exception error) {
                 Log.e(TAG, "Could not load recipes", error);
                 if (isAdded()) {
+                    stopLoading();
                     showMessage(RepositoryCallback.messageFor(error,
                             getString(R.string.error_load_recipes),
                             getString(R.string.error_permission_denied)));
@@ -162,9 +175,24 @@ public class SuggestedRecipesFragment extends Fragment
         });
     }
 
+    /**
+     * Takes the loading skeleton down after a failure.
+     *
+     * <p>Anything already on screen from an earlier load is left alone: a
+     * refresh that fails should not wipe results the user can still read.</p>
+     */
+    private void stopLoading() {
+        skeleton.hide();
+        if (suggestedAdapter.getItemCount() == 0) {
+            emptyStateView.setVisibility(View.VISIBLE);
+        }
+    }
+
     /** Renders the two lists, hiding whichever sections have nothing to show. */
     private void showResult(@NonNull RecipeSuggestionEngine.SuggestionResult result,
                             @NonNull List<PantryItem> pantryItems) {
+        skeleton.hide();
+
         List<Recipe> suggested = result.getSuggested();
         suggestedAdapter.submitRecipes(suggested);
 

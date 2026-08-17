@@ -12,14 +12,30 @@
         android:id="@+id/toolbar_recipe_detail"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/toolbar_background"
         app:navigationIcon="@drawable/ic_back"
-        app:titleTextColor="?attr/colorOnPrimary"
+        app:navigationIconTint="@color/toolbar_content"
+        app:titleTextColor="@color/toolbar_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!--
+        Covers the screen until the recipe arrives. Constrained to the same
+        edges as the content below it, which starts hidden.
+    -->
+    <include
+        android:id="@+id/skeleton_detail"
+        layout="@layout/view_skeleton_recipe_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_recipe_detail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <ScrollView
+        android:id="@+id/scroll_detail"
+        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"

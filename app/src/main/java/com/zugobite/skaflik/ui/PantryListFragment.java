@@ -46,6 +46,7 @@ public class PantryListFragment extends Fragment
     private PantryAdapter adapter;
     private RecyclerView recyclerView;
     private TextView emptyStateView;
+    private SkeletonPulse skeleton;
 
     /** Held so the Firestore listener can be detached when the view goes away. */
     @Nullable
@@ -67,6 +68,12 @@ public class PantryListFragment extends Fragment
 
         recyclerView = view.findViewById(R.id.recycler_pantry);
         emptyStateView = view.findViewById(R.id.text_empty_pantry);
+
+        // The skeleton starts visible in the layout, so the screen has shape
+        // before the first snapshot arrives; the pulse is what marks it as
+        // loading rather than as content that failed to appear.
+        skeleton = new SkeletonPulse(view.findViewById(R.id.skeleton_pantry));
+        skeleton.show();
 
         adapter = new PantryAdapter(this,
                 UserPreferences.isExpiryAlertsEnabled(requireContext()),
@@ -118,6 +125,13 @@ public class PantryListFragment extends Fragment
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Ends the pulse, so the animator stops holding a dead view.
+        skeleton.hide();
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         isStarted = false;
@@ -137,6 +151,7 @@ public class PantryListFragment extends Fragment
                 if (!isAdded()) {
                     return;
                 }
+                skeleton.hide();
                 adapter.submitItems(items);
                 showEmptyState(items.isEmpty());
             }
@@ -145,6 +160,10 @@ public class PantryListFragment extends Fragment
             public void onError(@NonNull Exception error) {
                 Log.e(TAG, "Could not load the pantry", error);
                 if (isAdded()) {
+                    // Leaving the skeleton pulsing would promise a list that is
+                    // never coming; the Snackbar carries the actual reason.
+                    skeleton.hide();
+                    showEmptyState(adapter.getItemCount() == 0);
                     showMessage(RepositoryCallback.messageFor(error,
                             getString(R.string.error_load_pantry),
                             getString(R.string.error_permission_denied)));

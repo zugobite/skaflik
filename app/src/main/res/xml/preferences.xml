@@ -28,6 +28,23 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/settings_category_appearance">
+
+        <ListPreference
+            app:defaultValue="system"
+            app:entries="@array/theme_labels"
+            app:entryValues="@array/theme_values"
+            app:key="pref_theme"
+            app:title="@string/settings_theme"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <!--
+        About. The version and package name are filled in at runtime from the
+        installed package, so they can never drift from what is actually on the
+        device the way a hard-coded string would.
+    -->
     <PreferenceCategory app:title="@string/settings_category_about">
 
         <Preference
@@ -35,6 +52,28 @@
             app:selectable="false"
             app:summary="@string/settings_about_summary"
             app:title="@string/app_name" />
+
+        <Preference
+            app:key="pref_about_version"
+            app:selectable="false"
+            app:title="@string/settings_about_version" />
+
+        <Preference
+            app:key="pref_about_developer"
+            app:selectable="false"
+            app:summary="@string/settings_about_developer_name"
+            app:title="@string/settings_about_developer" />
+
+        <Preference
+            app:key="pref_about_package"
+            app:selectable="false"
+            app:title="@string/settings_about_package" />
+
+        <Preference
+            app:key="pref_about_legal"
+            app:selectable="false"
+            app:summary="@string/settings_about_legal_summary"
+            app:title="@string/settings_about_legal" />
 
     </PreferenceCategory>
 

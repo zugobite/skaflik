@@ -35,6 +35,17 @@
     <dimen name="button_padding_horizontal">24dp</dimen>
     <dimen name="button_padding_vertical">12dp</dimen>
 
+    <!--
+        Loading skeletons. The bars stand in for lines of text, so their
+        heights follow the type they replace rather than the spacing scale.
+    -->
+    <dimen name="skeleton_corner_radius">6dp</dimen>
+    <dimen name="skeleton_line_title">18dp</dimen>
+    <dimen name="skeleton_line_body">12dp</dimen>
+    <dimen name="skeleton_width_lg">180dp</dimen>
+    <dimen name="skeleton_width_md">120dp</dimen>
+    <dimen name="skeleton_width_sm">64dp</dimen>
+
     <!-- Clearance so the FAB never covers the last row in a list. -->
     <dimen name="list_bottom_clearance">88dp</dimen>
 

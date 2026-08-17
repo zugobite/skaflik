@@ -38,6 +38,23 @@
     </style>
 
     <!--
+        Destructive action, e.g. removing an ingredient. Outlined rather than
+        filled so it never competes with Save for the eye, and terracotta so it
+        is clearly not just another way out of the screen.
+    -->
+    <style name="Widget.Skaflik.Button.Destructive" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="shapeAppearance">@style/ShapeAppearance.Skaflik.Rounded</item>
+        <item name="android:minHeight">@dimen/touch_target_min</item>
+        <item name="android:paddingStart">@dimen/button_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/button_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/button_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/button_padding_vertical</item>
+        <item name="android:textColor">@color/skaflik_terracotta</item>
+        <item name="strokeColor">@color/skaflik_terracotta</item>
+        <item name="rippleColor">@color/skaflik_terracotta</item>
+    </style>
+
+    <!--
         Form fields. Material's outlined box takes its corner sizes as four
         separate attributes rather than a shape appearance, so all four are set
         to the same value the cards and buttons use.

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -65,9 +66,18 @@ public class AddEditIngredientActivity extends AppCompatActivity {
     private TextInputEditText expiryInput;
     private MaterialAutoCompleteTextView unitInput;
 
+    private MaterialButton deleteButton;
+
     /** Null in add mode, set in edit mode. */
     @Nullable
     private String editingItemId;
+
+    /**
+     * The name the item was loaded under, used in the delete confirmation so
+     * it names what is stored rather than an unsaved edit in the name field.
+     */
+    @Nullable
+    private String loadedItemName;
 
     /**
      * Builds the Intent that opens this screen.
@@ -124,6 +134,9 @@ public class AddEditIngredientActivity extends AppCompatActivity {
 
         MaterialButton saveButton = findViewById(R.id.button_save);
         saveButton.setOnClickListener(view -> onSavePressed());
+
+        deleteButton = findViewById(R.id.button_delete);
+        deleteButton.setOnClickListener(view -> confirmDelete());
     }
 
     private void bindViews() {
@@ -216,6 +229,12 @@ public class AddEditIngredientActivity extends AppCompatActivity {
     }
 
     private void populateForm(@NonNull PantryItem item) {
+        loadedItemName = item.getName();
+
+        // Revealed only now: until the item is loaded there is nothing to
+        // confirm a deletion against, and nothing worth offering to remove.
+        deleteButton.setVisibility(View.VISIBLE);
+
         nameInput.setText(item.getName());
         quantityInput.setText(formatQuantity(item.getQuantity()));
         expiryInput.setText(item.getExpiryDate());
@@ -401,6 +420,48 @@ public class AddEditIngredientActivity extends AppCompatActivity {
             public void onError(@NonNull Exception error) {
                 Log.e(TAG, "Could not update item " + itemId, error);
                 showMessage(getString(R.string.error_save_item));
+            }
+        });
+    }
+
+    // --- Deleting ---
+
+    /**
+     * Asks before removing the item.
+     *
+     * <p>The same confirmation the pantry list shows on a long-press. This
+     * screen is where most people will look for it, the long-press being
+     * invisible until you happen to try it.</p>
+     */
+    private void confirmDelete() {
+        String name = loadedItemName == null ? textOf(nameInput) : loadedItemName;
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_item_title)
+                .setMessage(getString(R.string.delete_item_message, name))
+                .setNegativeButton(R.string.action_cancel, null)
+                .setPositiveButton(R.string.action_delete, (dialog, which) -> deleteItem(name))
+                .show();
+    }
+
+    /** Removes the item and closes; the pantry list drops the row on its own. */
+    private void deleteItem(@NonNull String name) {
+        final String itemId = editingItemId;
+        if (itemId == null) {
+            // Not reachable: the button only appears once an item is loaded.
+            return;
+        }
+
+        pantryRepository.deleteItem(itemId, new RepositoryCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                finishWithMessage(getString(R.string.delete_item_done, name));
+            }
+
+            @Override
+            public void onError(@NonNull Exception error) {
+                Log.e(TAG, "Could not delete item " + itemId, error);
+                showMessage(getString(R.string.error_delete_item));
             }
         });
     }

@@ -13,4 +13,18 @@
         <item>imperial</item>
     </string-array>
 
+    <!-- Shown in the theme picker. -->
+    <string-array name="theme_labels">
+        <item>System</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <!-- Stored values; must match the constants in UserPreferences. -->
+    <string-array name="theme_values">
+        <item>system</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+
 </resources>

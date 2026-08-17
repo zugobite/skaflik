@@ -6,4 +6,12 @@
     <color name="skaflik_terracotta">#FFC2603F</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
+
+    <!--
+        The app bar's own colours. Named separately from colorPrimary because
+        dark mode keeps the green identity but needs a deeper shade behind the
+        title; a screen-wide colorPrimary swap would also repaint every accent.
+    -->
+    <color name="toolbar_background">@color/skaflik_green</color>
+    <color name="toolbar_content">@color/white</color>
 </resources>

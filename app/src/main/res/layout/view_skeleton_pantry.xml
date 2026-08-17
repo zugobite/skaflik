@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The pantry list's loading state: four placeholder rows.
+
+    Four is enough to read as a list on the smallest supported screen without
+    running past the fold on any of them.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:importantForAccessibility="noHideDescendants"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_skeleton_pantry_row" />
+
+    <include layout="@layout/view_skeleton_pantry_row" />
+
+    <include layout="@layout/view_skeleton_pantry_row" />
+
+    <include layout="@layout/view_skeleton_pantry_row" />
+
+</LinearLayout>

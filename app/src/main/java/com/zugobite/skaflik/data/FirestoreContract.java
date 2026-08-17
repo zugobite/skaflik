@@ -71,4 +71,10 @@ public final class FirestoreContract {
     public static final String FIELD_SEEDED = "seeded";
     public static final String FIELD_SEEDED_AT = "seededAt";
     public static final String FIELD_RECIPE_COUNT = "recipeCount";
+
+    /**
+     * Which revision of the seed data was last written. Lets a later build
+     * correct recipes that are already in the collection.
+     */
+    public static final String FIELD_SEED_VERSION = "seedVersion";
 }

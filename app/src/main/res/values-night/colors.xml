@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Dark-mode palette. Same two hues as the light theme, lifted until they hold
+    their contrast against a dark surface: the daytime green and terracotta are
+    too deep to read as accents once the background stops being white.
+-->
+<resources>
+
+    <!-- Accent green, brightened for text and icons on dark surfaces. -->
+    <color name="skaflik_green">#FF6FCF97</color>
+    <color name="skaflik_green_dark">#FF0E3B24</color>
+
+    <!-- The app bar stays recognisably green, but deep enough for white text. -->
+    <color name="toolbar_background">#FF14452B</color>
+
+    <!-- Terracotta, lifted to stay legible for expiry warnings. -->
+    <color name="skaflik_terracotta">#FFE58F6D</color>
+
+</resources>

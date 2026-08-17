@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A placeholder recipe card, mirroring item_recipe: name then meta line. -->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Skaflik.Card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    android:focusable="false"
+    android:importantForAccessibility="no">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/list_item_padding">
+
+        <View
+            android:layout_width="@dimen/skeleton_width_md"
+            android:layout_height="@dimen/skeleton_line_title"
+            android:background="@drawable/bg_skeleton_block" />
+
+        <View
+            android:layout_width="@dimen/skeleton_width_lg"
+            android:layout_height="@dimen/skeleton_line_body"
+            android:layout_marginTop="@dimen/space_sm"
+            android:background="@drawable/bg_skeleton_block" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

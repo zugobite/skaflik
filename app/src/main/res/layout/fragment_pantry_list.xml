@@ -14,9 +14,9 @@
         android:id="@+id/toolbar_pantry"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/toolbar_background"
         app:title="@string/nav_pantry"
-        app:titleTextColor="?attr/colorOnPrimary"
+        app:titleTextColor="@color/toolbar_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -34,12 +34,27 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <!--
-        Shown instead of the list when the pantry is empty. Visible by default
-        so the screen reads as "empty" rather than blank while the first load
-        is still in flight, or if it never completes.
+        The first load's placeholder. Visible by default so the screen has
+        shape from the first frame; the fragment hides it once the pantry
+        arrives, or once the load fails.
+    -->
+    <include
+        android:id="@+id/skeleton_pantry"
+        layout="@layout/view_skeleton_pantry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_pantry"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!--
+        Shown instead of the list when the pantry is empty. Hidden until the
+        first load finishes, so an empty message never flashes up in front of
+        a pantry that does have items in it.
     -->
     <TextView
         android:id="@+id/text_empty_pantry"
+        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/space_xxl"

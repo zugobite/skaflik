@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -59,6 +60,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
     private TextView metaView;
     private TextView statusView;
     private LinearLayout stepsContainer;
+    private View contentView;
+    private SkeletonPulse skeleton;
 
     /** Builds the Intent that opens this screen for a given recipe. */
     @NonNull
@@ -78,6 +81,12 @@ public class RecipeDetailActivity extends AppCompatActivity {
         metaView = findViewById(R.id.text_detail_meta);
         statusView = findViewById(R.id.text_detail_status);
         stepsContainer = findViewById(R.id.container_steps);
+        contentView = findViewById(R.id.scroll_detail);
+
+        // The recipe and the pantry are two round trips; the skeleton holds the
+        // screen's shape until the first of them lands.
+        skeleton = new SkeletonPulse(findViewById(R.id.skeleton_detail));
+        skeleton.show();
 
         toolbar.setNavigationOnClickListener(view -> finish());
 
@@ -145,6 +154,11 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     /** Renders everything that does not depend on the pantry. */
     private void showRecipe(@NonNull Recipe recipe) {
+        // Shown as soon as the recipe itself is in: the ingredient rows fill in
+        // a moment later, once the pantry has been read to mark them.
+        skeleton.hide();
+        contentView.setVisibility(View.VISIBLE);
+
         toolbar.setTitle(recipe.getName());
         nameView.setText(recipe.getName());
         metaView.setText(getString(R.string.detail_meta,

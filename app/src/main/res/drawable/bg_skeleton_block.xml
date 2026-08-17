@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    One bar in a loading skeleton. Uses the theme's surface-variant colour so
+    it reads as an absence of content rather than as a filled control.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners android:radius="@dimen/skeleton_corner_radius" />
+    <solid android:color="?attr/colorSurfaceVariant" />
+
+</shape>

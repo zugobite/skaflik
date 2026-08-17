@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The recipe detail screen's loading state: the title block, then the
+    ingredient lines, laid out where the real content will appear.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:importantForAccessibility="noHideDescendants"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="@dimen/skeleton_width_lg"
+        android:layout_height="@dimen/skeleton_line_title"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:layout_marginTop="@dimen/space_lg"
+        android:background="@drawable/bg_skeleton_block" />
+
+    <View
+        android:layout_width="@dimen/skeleton_width_md"
+        android:layout_height="@dimen/skeleton_line_body"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:layout_marginTop="@dimen/space_md"
+        android:background="@drawable/bg_skeleton_block" />
+
+    <View
+        android:layout_width="@dimen/skeleton_width_lg"
+        android:layout_height="@dimen/skeleton_line_body"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:layout_marginTop="@dimen/space_md"
+        android:background="@drawable/bg_skeleton_block" />
+
+    <View
+        android:layout_width="@dimen/skeleton_width_sm"
+        android:layout_height="@dimen/skeleton_line_body"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:layout_marginTop="@dimen/space_xl"
+        android:background="@drawable/bg_skeleton_block" />
+
+    <include layout="@layout/view_skeleton_ingredient_line" />
+
+    <include layout="@layout/view_skeleton_ingredient_line" />
+
+    <include layout="@layout/view_skeleton_ingredient_line" />
+
+    <include layout="@layout/view_skeleton_ingredient_line" />
+
+</LinearLayout>

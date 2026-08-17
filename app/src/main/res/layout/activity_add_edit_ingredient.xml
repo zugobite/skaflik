@@ -14,9 +14,10 @@
         android:id="@+id/toolbar_add_edit"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/toolbar_background"
         app:navigationIcon="@drawable/ic_back"
-        app:titleTextColor="?attr/colorOnPrimary"
+        app:navigationIconTint="@color/toolbar_content"
+        app:titleTextColor="@color/toolbar_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -117,6 +118,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_xxl"
                 android:text="@string/action_save" />
+
+            <!--
+                Edit mode only. There is nothing to remove when adding, so the
+                activity shows this only once it has an item ID.
+            -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_delete"
+                style="@style/Widget.Skaflik.Button.Destructive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md"
+                android:text="@string/action_delete_item"
+                android:visibility="gone" />
 
         </LinearLayout>
 
